@@ -25,7 +25,7 @@ namespace Library.Repositories
         public void Remove(BookCopy item)
         {
             //kontrollera så man inte tar bort en bokkopia som har lån?
-            BookCopy BookCopyToRemove = _context.BookCopies.Find(item.id);
+            BookCopy BookCopyToRemove = _context.BookCopies.Find(item.Id);
             if(BookCopyToRemove != null)
                 _context.BookCopies.Remove(BookCopyToRemove);
             _context.SaveChanges();
@@ -39,7 +39,7 @@ namespace Library.Repositories
 
         public void Edit(BookCopy item)
         {
-            BookCopy BookCopyToEdit = _context.BookCopies.Find(item.id);
+            BookCopy BookCopyToEdit = _context.BookCopies.Find(item.Id);
             BookCopyToEdit.Book = item.Book;
             _context.SaveChanges();
         }
