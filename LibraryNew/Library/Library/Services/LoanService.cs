@@ -32,6 +32,33 @@ namespace Library.Services
 
         public event EventHandler Updated;
 
+        public IEnumerable<Loan> GetDueLoans() {
+
+            return _loanRepository.All().Where(loan => loan.DueDate < DateTime.Today && loan.ReturnTime == null);
+        }
+
+        public IEnumerable<Loan> GetActiveLoans()
+        {
+            return _loanRepository.All().Where(loan => loan.DueDate > DateTime.Today && loan.ReturnTime == null);
+        }
+
+        public IEnumerable<Loan> GetReturnedLoans()
+        {
+            return _loanRepository.All().Where(loan => loan.ReturnTime != null).OrderByDescending(loan => loan.ReturnTime);
+        }
+
+        public int ReturnLoan(Loan loan) {
+            int returnFee = 0;
+            if (loan.DueDate < DateTime.Today){
+                returnFee = (DateTime.Today - loan.DueDate).Days * 10;
+            }
+            loan.ReturnTime = DateTime.Today;
+            _loanRepository.Edit(loan);
+            return returnFee;
+        }
+
+
+
         protected virtual void OnUpdate(EventArgs ea)
         {
             if (Updated != null)

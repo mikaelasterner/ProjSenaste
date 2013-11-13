@@ -24,8 +24,8 @@ namespace Library.Services
             var BookCopyList = _bookCopyRepository.All().Where(bk => bk.Book.Id == book.Id);
             var LoanList = _loanRepository.All().Where(loan => loan.Book_copy.Book.Id == book.Id && loan.ReturnTime == null);
             int antalUtlånade = LoanList.Count();
-            //BookAvailableList = BookAvailableList.Where(bc => bc.Id == 
             return BookCopyList.Count() - antalUtlånade;
+            //kan även lista en lista på alla bokkopior beroende på vad vi specifiserar
         }
 
         public IEnumerable<BookCopy> getBookCopies(Book book)

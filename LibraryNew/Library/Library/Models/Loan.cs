@@ -8,9 +8,9 @@ namespace Library.Models
     class Loan
     {
         public int Id { get; set; }
-        public String Time { get; set; }
-        public string DueDate { get; set; } //kan man använda datatypen timespan istället?
-        public int ReturnTime { get; set; }
+        public DateTime Time { get; set; }
+        public DateTime DueDate { get; set; } 
+        public DateTime? ReturnTime { get; set; }
         public BookCopy Book_copy { get; set; }
         public Member Member { get; set; }
     }

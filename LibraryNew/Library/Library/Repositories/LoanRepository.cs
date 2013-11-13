@@ -42,10 +42,10 @@ namespace Library.Repositories
             Loan LoanToEdit = _context.Loans.Find(item.Id);
             LoanToEdit.Time = item.Time;
             LoanToEdit.DueDate = item.DueDate;
-            LoanToEdit.Book_copy = LoanToEdit.Book_copy;
-            LoanToEdit.Member = LoanToEdit.Member;
+            LoanToEdit.Book_copy = item.Book_copy;
+            LoanToEdit.Member = item.Member;
             if (item.ReturnTime != null)
-                LoanToEdit.ReturnTime = LoanToEdit.ReturnTime;
+                LoanToEdit.ReturnTime = item.ReturnTime;
             _context.SaveChanges();
         }
 

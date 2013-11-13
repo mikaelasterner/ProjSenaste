@@ -15,13 +15,14 @@ namespace Library
 {
     public partial class LibraryForm : Form
     {
+        BookService _bookservice;
+        AuthorService _authorservice;
+        BookCopyService _bookCopyService;
+        MemberService _memberservice;
+        LoanService _loanservice;
         public LibraryForm()
         {
-            BookService _bookservice;
-            AuthorService _authorservice;
-            BookCopyService _bookCopyService;
-            MemberService _memberservice;
-            LoanService _loanservice;
+            
             InitializeComponent();
 
 
@@ -52,7 +53,7 @@ namespace Library
             _authorservice.Add(b);
             _bookservice.Add(new Book() { Title = "Mordet på greven", ISBN = "23329", Author = a });
             _bookservice.Add(new Book() { Title = "Mordet på Liselott", ISBN = "26629", Author = new Author { Name = "Gösta Ekman" } });
-            _bookservice.Add(new Book() { Title = "Geven", ISBN = "98329" });
+            _bookservice.Add(new Book() { Title = "Geven", ISBN = "98329", Author = a });
             Book bb = new Book() { Title = "Mordet på dennis", ISBN = "23329", Author = a };
             _bookservice.Add(bb);
             BookCopy bk = new BookCopy() {Book = bb };
@@ -65,12 +66,35 @@ namespace Library
             _bookCopyService.Add(bk3);
             _authorservice.Remove(b);
 
-            _memberservice.Add(new Member() {Name = "Dennis", PrId = 860417});
-            _loanservice.Add(new Loan() { Member = new Member() {Name = "Dennis", PrId = 880417}, Book_copy = bk} );
-            _loanservice.Add(new Loan() { Member = new Member() { Name = "Dennis", PrId = 800417 }, Book_copy = bk2 });
+            
+             Member dennis = new Member() {Name = "Dennis", PrId = 881011};
+             _memberservice.Add(dennis);
+             Member mikaela = new Member() { Name = "Mikaela", PrId = 860417 };
+             _memberservice.Add(dennis);
+            var loan = new Loan() { Member = dennis, Book_copy = bk, Time = DateTime.Today, DueDate = new DateTime(2013, 11, 11)};
+            _loanservice.Add(loan);
+            _loanservice.Add(new Loan() { Member = mikaela, Book_copy = bk2, Time = DateTime.Today, DueDate = (DateTime.Today.AddDays(15)) });
             int copies=_bookCopyService.getAvailableBookCopies(bb);
+            var booklist = _authorservice.ListBookByAuthor(a);
+            var dueloans = _loanservice.GetDueLoans();
+            _memberservice.GetLoansForMember(new Member() {Name = "Dennisssssss", PrId = 8881011});
+            _loanservice.ReturnLoan(loan);
 
         }
+
+        private void btnAddAuthor_Click(object sender, EventArgs e)
+        {
+            //show formulär för att adda AUthor
+            panelAddAuthor.Visible = true;
+        }
+
+        private void btnEnterAuthor_Click(object sender, EventArgs e)
+        {
+            _authorservice.Add(new Author { Name=textboxAddAuthorName.Text});
+            panelAddAuthor.Visible = false;
+        }
+
+
         
     }
 }

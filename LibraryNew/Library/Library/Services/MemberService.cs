@@ -30,6 +30,15 @@ namespace Library.Services
             //utlös eventet för att lägga till en bok
         }
 
+        public ICollection<Loan> GetLoansForMember(Member member)
+        {
+            var mem =_memberRepository.Find(member.Id);
+            if (mem != null)
+                return mem.Loans;
+            return null;
+        }
+
+
         public event EventHandler Updated;
 
         protected virtual void OnUpdate(EventArgs ea)
