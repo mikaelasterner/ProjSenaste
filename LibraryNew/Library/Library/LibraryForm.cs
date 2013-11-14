@@ -30,10 +30,10 @@ namespace Library
             Database.SetInitializer<LibraryContext>(new LibraryDbInit());
 
             // Recreate the database only if the models change
-            Database.SetInitializer<LibraryContext>(new DropCreateDatabaseIfModelChanges<LibraryContext>());
+            //Database.SetInitializer<LibraryContext>(new DropCreateDatabaseIfModelChanges<LibraryContext>());
 
             // Always drop and recreate the database
-            Database.SetInitializer<LibraryContext>(new DropCreateDatabaseAlways<LibraryContext>());
+            //Database.SetInitializer<LibraryContext>(new DropCreateDatabaseAlways<LibraryContext>());
 
 
 
@@ -53,8 +53,22 @@ namespace Library
             _bookservice.Add(new Book() { Title = "Mordet på greven", ISBN = "23329", Author = a });
             _bookservice.Add(new Book() { Title = "Mordet på Liselott", ISBN = "26629", Author = new Author { Name = "Gösta Ekman" } });
             _bookservice.Add(new Book() { Title = "Geven", ISBN = "98329" });
-            _bookCopyService.Add(new BookCopy() { Book = new Book { Title = "Den första bokkopian", ISBN = "88629", Author = new Author { Name = "Yngve Ekman" } } });
+            Book bb = new Book() { Title = "Mordet på dennis", ISBN = "23329", Author = a };
+            _bookservice.Add(bb);
+            BookCopy bk = new BookCopy() {Book = bb };
+            BookCopy bk1 = new BookCopy() { Book = bb };
+            BookCopy bk2 = new BookCopy() { Book = bb };
+            BookCopy bk3 = new BookCopy() { Book = bb };
+            _bookCopyService.Add(bk);
+            _bookCopyService.Add(bk1);
+            _bookCopyService.Add(bk2);
+            _bookCopyService.Add(bk3);
             _authorservice.Remove(b);
+
+            _memberservice.Add(new Member() {Name = "Dennis", PrId = 860417});
+            _loanservice.Add(new Loan() { Member = new Member() {Name = "Dennis", PrId = 880417}, Book_copy = bk} );
+            _loanservice.Add(new Loan() { Member = new Member() { Name = "Dennis", PrId = 800417 }, Book_copy = bk2 });
+            int copies=_bookCopyService.getAvailableBookCopies(bb);
 
         }
         
