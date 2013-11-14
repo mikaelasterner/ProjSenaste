@@ -11,10 +11,5 @@ namespace Library.Models
         public int PrId { get; set; }
         public string Name { get; set; }
         public ICollection<Loan> Loans { get; set; }
-
-        public Member()
-        {
-            Loans = new List<Loan>();
-        }
     }
 }

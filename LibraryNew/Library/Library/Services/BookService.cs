@@ -35,9 +35,6 @@ namespace Library.Services
             return _bookRepository.Find(id);
         }
 
-
-
-
         public IEnumerable<Book> All()
         {
             return _bookRepository.All();

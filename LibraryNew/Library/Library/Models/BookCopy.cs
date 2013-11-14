@@ -7,7 +7,7 @@ namespace Library.Models
 {
     class BookCopy
     {
-        public int Id { get; set; }
+        public int id { get; set; }
         public Book Book { get; set; }
     }
 }
