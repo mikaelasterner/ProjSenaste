@@ -459,17 +459,24 @@
             this.Controls.Add(this.listBox1);
             this.Name = "LibraryForm";
             this.Text = "Mickans Bibliotek";
+
             this.panel_rb_group.ResumeLayout(false);
             this.panel_rb_group.PerformLayout();
+
             this.panel_AddAuthor.ResumeLayout(false);
             this.panel_AddAuthor.PerformLayout();
+
             this.panel_AddBook.ResumeLayout(false);
             this.panel_AddBook.PerformLayout();
+
             this.panel_mother.ResumeLayout(false);
+
             this.panel_AddMember.ResumeLayout(false);
             this.panel_AddMember.PerformLayout();
+
             this.panel_AddLoan.ResumeLayout(false);
             this.panel_AddLoan.PerformLayout();
+
             this.ResumeLayout(false);
             this.PerformLayout();
 
