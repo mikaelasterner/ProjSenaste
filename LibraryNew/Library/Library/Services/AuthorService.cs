@@ -9,8 +9,7 @@ namespace Library.Services
 {
     class AuthorService : IService
     {
-
-        IRepository<Author, int> _AuthorRepository;
+        readonly IRepository<Author, int> _AuthorRepository;
         //för att komma åt add metoden i repository skapas en instans av repository
         //IRepository<Book, int> _BookRepository;
 
@@ -32,12 +31,16 @@ namespace Library.Services
             //utlös eventet för att lägga till en bok
         }
 
-        public IEnumerable<Book> ListBookByAuthor(Author ByAuthor)
+        public IEnumerable<Book> ListBookByAuthor(Author byAuthor)
         {
             //var ByAuthorList = _BookRepository.All().Where(book => book.Author.Id == ByAuthor.Id);
-            var ByAuthorList = ByAuthor.Books;
-            return ByAuthorList;
+            var byAuthorList = byAuthor.Books;
+            return byAuthorList;
 
+        }
+        public IEnumerable<Author> All()
+        {
+            return _AuthorRepository.All();
         }
 
 

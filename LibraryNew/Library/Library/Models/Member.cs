@@ -16,5 +16,10 @@ namespace Library.Models
         {
             Loans = new List<Loan>();
         }
+
+        public override string ToString()
+        {
+            return Name + " (" + PrId + ")";
+        }
     }
 }

@@ -9,7 +9,7 @@ namespace Library.Services
 {
     class MemberService : IService
     {
-        IRepository<Member, int> _memberRepository;
+        readonly IRepository<Member, int> _memberRepository;
         //för att komma åt add metoden i repository skapas en instans av repository
 
 
@@ -36,6 +36,11 @@ namespace Library.Services
             if (mem != null)
                 return mem.Loans;
             return null;
+        }
+
+        public IEnumerable<Member> All()
+        {
+            return _memberRepository.All();
         }
 
 

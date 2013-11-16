@@ -4,7 +4,9 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
+﻿using System.Runtime.InteropServices;
+﻿using System.Runtime.Remoting.Channels;
+﻿using System.Text;
 using System.Windows.Forms;
 using Library.Models;
 using Library.Services;
@@ -20,12 +22,13 @@ namespace Library
         BookCopyService _bookCopyService;
         MemberService _memberservice;
         LoanService _loanservice;
+        IEnumerable<Object> listbox_data_backup;
         public LibraryForm()
         {
             
             InitializeComponent();
 
-
+            
             // Uncomment the line you wish to use
             // Use a derived strategy with a Seed-method
             Database.SetInitializer<LibraryContext>(new LibraryDbInit());
@@ -36,7 +39,44 @@ namespace Library
             // Always drop and recreate the database
             //Database.SetInitializer<LibraryContext>(new DropCreateDatabaseAlways<LibraryContext>());
 
+            rb_allbooks.CheckedChanged += (sender, args) =>
+            {
+                RadioButton rb = sender as RadioButton;
+                if (rb.Checked)
+                {
+                    listbox_data_backup = _bookservice.All();
+                    refresh_contents(listbox_data_backup);                  
+                }
+            };
+            rb_allauthors.CheckedChanged += (sender, args) =>
+            {
+                RadioButton rb = sender as RadioButton;
+                if (rb.Checked)
+                {
+                    listbox_data_backup = _authorservice.All();
+                    refresh_contents(listbox_data_backup);                  
+                }
+            };
 
+            rb_allmembers.CheckedChanged += (sender, args) =>
+            {
+                RadioButton rb = sender as RadioButton;
+                if (rb.Checked)
+                {
+                    listbox_data_backup = _memberservice.All();
+                    refresh_contents(listbox_data_backup);      
+                }
+            };
+            rb_allloans.CheckedChanged += (sender, args) =>
+            {
+                RadioButton rb = sender as RadioButton;
+                if (rb.Checked)
+                {
+                    listbox_data_backup = _loanservice.All();
+                    refresh_contents(listbox_data_backup);
+                   
+                }
+            };
 
 
             //BookRepository bookRepository = new RepositoryFactory().GetBookRepository();
@@ -79,6 +119,7 @@ namespace Library
             var dueloans = _loanservice.GetDueLoans();
             _memberservice.GetLoansForMember(new Member() {Name = "Dennisssssss", PrId = 8881011});
             _loanservice.ReturnLoan(loan);
+            
 
         }
 
@@ -94,7 +135,21 @@ namespace Library
             panelAddAuthor.Visible = false;
         }
 
+        private void textbox_filter_TextChanged(object sender, EventArgs e)
+        {
+            var items = listbox_data_backup.Where(i => i.ToString().ToLower().Contains(textbox_filter.Text.ToLower())).ToList();
+            
+            refresh_contents(items);
+        }
 
-        
-    }
+        private void refresh_contents(IEnumerable<object> contents)
+        {
+
+            listBox1.Items.Clear();
+            foreach (var item in contents)
+            {
+                listBox1.Items.Add(item);
+            }
+        }
+ }
 }

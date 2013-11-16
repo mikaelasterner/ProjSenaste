@@ -66,5 +66,10 @@ namespace Library.Services
                 Updated(this, ea);
             }
         }
+
+        public IEnumerable<Loan>  All()
+        {
+            return _loanRepository.All();
+        }
     }
 }
