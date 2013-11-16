@@ -27,7 +27,7 @@ namespace Library
         {
             
             InitializeComponent();
-
+            
             
             // Uncomment the line you wish to use
             // Use a derived strategy with a Seed-method
@@ -38,6 +38,15 @@ namespace Library
 
             // Always drop and recreate the database
             //Database.SetInitializer<LibraryContext>(new DropCreateDatabaseAlways<LibraryContext>());
+            panel_mother.Controls.Add(panel_AddAuthor);
+            panel_mother.Controls.Add(panel_AddBook);
+            var panels = panel_mother.Controls;
+            
+            foreach (Panel p in panels)
+            {
+                p.VisibleChanged += show_hide_panels;
+
+            }
 
             rb_allbooks.CheckedChanged += (sender, args) =>
             {
@@ -73,8 +82,7 @@ namespace Library
                 if (rb.Checked)
                 {
                     listbox_data_backup = _loanservice.All();
-                    refresh_contents(listbox_data_backup);
-                   
+                    refresh_contents(listbox_data_backup); 
                 }
             };
 
@@ -119,20 +127,21 @@ namespace Library
             var dueloans = _loanservice.GetDueLoans();
             _memberservice.GetLoansForMember(new Member() {Name = "Dennisssssss", PrId = 8881011});
             _loanservice.ReturnLoan(loan);
-            
+
+            rb_allbooks.Checked = true;
 
         }
 
         private void btnAddAuthor_Click(object sender, EventArgs e)
         {
             //show formulär för att adda AUthor
-            panelAddAuthor.Visible = true;
+            panel_AddAuthor.Visible = true;
         }
 
         private void btnEnterAuthor_Click(object sender, EventArgs e)
         {
             _authorservice.Add(new Author { Name=textboxAddAuthorName.Text});
-            panelAddAuthor.Visible = false;
+            panel_AddAuthor.Visible = false;
         }
 
         private void textbox_filter_TextChanged(object sender, EventArgs e)
@@ -151,5 +160,43 @@ namespace Library
                 listBox1.Items.Add(item);
             }
         }
- }
+
+
+        //Funktion som skall kallas på när en panel blir synlig/gömd.
+        //Prenumerera genom t.ex Panel p = new Panel
+        //p.VisibleChanged += show_hide_panels
+        private void show_hide_panels(object sender, EventArgs e)
+        {
+            Panel currentPanel = sender as Panel;
+            if (currentPanel.Visible){
+                foreach (Panel panel in panel_mother.Controls.OfType<Panel>())
+                {
+                    if (panel != currentPanel)
+                        panel.Visible = false;
+                }
+            }
+
+        }
+
+        private void btn_AddBook_Click(object sender, EventArgs e)
+        {
+            panel_AddBook.Visible = true;
+        }
+
+        private void btn_AddMember_Click(object sender, EventArgs e)
+        {
+            panel_AddMember.Visible = true;
+        }
+
+        private void btn_AddLoan_Click(object sender, EventArgs e)
+        {
+            panel_AddLoan.Visible = true;
+        }
+
+
+
+
+
+
+    }
 }

@@ -7,28 +7,30 @@ using Library.Models;
 
 namespace Library.Services
 {
-    class AuthorService : IService
+    class AuthorService : IService<Author>
     {
-        readonly IRepository<Author, int> _AuthorRepository;
+        readonly IRepository<Author, int> _authorRepository;
         //för att komma åt add metoden i repository skapas en instans av repository
         //IRepository<Book, int> _BookRepository;
 
         public AuthorService(IRepository<Author, int> repository)
         {
-            _AuthorRepository = repository;
+            _authorRepository = repository;
            // _BookRepository = new RepositoryFactory().GetBookRepository();
         }
 
         public void Add(Author author)
         {
-            _AuthorRepository.Add(author);
+            _authorRepository.Add(author);
             //utlös eventet för att lägga till en bok
+            OnUpdate(new ServiceEventArgs<Author>(Operation.Add, author, _authorRepository.All().Count()));
         }
 
         public void Remove(Author author)
         {
-            _AuthorRepository.Remove(author);
+            _authorRepository.Remove(author);
             //utlös eventet för att lägga till en bok
+            OnUpdate(new ServiceEventArgs<Author>(Operation.Remove, author, _authorRepository.All().Count()));
         }
 
         public IEnumerable<Book> ListBookByAuthor(Author byAuthor)
@@ -40,14 +42,14 @@ namespace Library.Services
         }
         public IEnumerable<Author> All()
         {
-            return _AuthorRepository.All();
+            return _authorRepository.All();
         }
 
 
 
-        public event EventHandler Updated;
+        public event EventHandler<ServiceEventArgs<Author>> Updated;
 
-        protected virtual void OnUpdate(EventArgs ea)
+        protected virtual void OnUpdate(ServiceEventArgs<Author> ea)
         {
             if (Updated != null)
             {

@@ -6,8 +6,8 @@ using Library.Repositories;
 
 namespace Library.Services
 {
-    interface IService
+    interface IService<TItem>
     {
-        event EventHandler Updated;
+        event EventHandler<ServiceEventArgs<TItem>> Updated;
     }
 }
